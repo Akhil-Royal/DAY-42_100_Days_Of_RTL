@@ -2,28 +2,34 @@
 //Prime Numbers Detector
 
 //DESIGN CODE
-module even_detector (
+module prime_detector (
     input [7:0] num,
-    output reg is_even
+    output reg is_prime
 );
+    integer i, count;
     always @(*) begin
-        is_even = (num % 2 == 0) ? 1 : 0;
+        count = 0;
+        for (i = 1; i <= num; i = i + 1) begin
+            if (num % i == 0)
+                count = count + 1;
+        end
+        is_prime = (count == 2) ? 1 : 0;
     end
 endmodule
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //TEST BENCH CODE
-module tb_even_detector;
+module tb_prime_detector;
     reg [7:0] test_num;
-    wire is_even;
+    wire is_prime;
     
-    even_detector uut (
+    prime_detector uut (
         .num(test_num),
-        .is_even(is_even)
+        .is_prime(is_prime)
     );
     
     initial begin
-        $monitor("Time=%0t, Number=%d, Is_Even=%b", $time, test_num, is_even);
+        $monitor("Time=%0t, Number=%d, Is_Prime=%b", $time, test_num, is_prime);
         
         test_num = 1; #10;
         test_num = 2; #10;
@@ -39,3 +45,4 @@ module tb_even_detector;
         $stop;
     end
 endmodule
+
